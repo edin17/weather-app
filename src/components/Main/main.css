@@ -1,0 +1,30 @@
+.main {
+  width: 100vw;
+  height: 90vh;
+}
+
+.main .today-weather {
+  width: 300px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  margin: 50px 0px 0px 50px;
+  border-radius: 10px;
+  color: white;
+}
+
+.main .today-weather img {
+  margin-top: 50px;
+}
+
+.main .today-weather h1 {
+  margin: 0;
+  font-size: 60px;
+}
+
+.main .other-weather-info {
+  width: 90%;
+  text-align: left;
+  margin: 10% 0% 0% 10%;
+}
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,53 @@
+header {
+  width: 100vw;
+  height: 10vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  box-shadow: 1px 4px 7px 0px rgba(0, 0, 0, 0.66);
+  -webkit-box-shadow: 1px 4px 7px 0px rgba(0, 0, 0, 0.66);
+  -moz-box-shadow: 1px 4px 7px 0px rgba(0, 0, 0, 0.66);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+header .location {
+  color: white;
+}
+
+header .location h5, header .location h2 {
+  margin: 0px;
+}
+
+header input {
+  width: 200px;
+  height: 24px;
+  border: none;
+  border-radius: 5px;
+}
+
+header .search-res-box {
+  position: absolute;
+  width: 200px;
+  background-color: white;
+  border: 1px solid #e7e7e7;
+  top: 12vh;
+  right: 15vw;
+  max-height: 400px;
+  overflow-y: scroll;
+  height: auto;
+  border-radius: 5px;
+}
+
+header .search-res-box p {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  font-size: 11pt;
+  text-align: center;
+}
+/*# sourceMappingURL=header.css.map */
