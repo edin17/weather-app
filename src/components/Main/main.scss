@@ -12,20 +12,43 @@
 .main{
     width: 100vw;
     height: 90vh;
-    .today-weather{
-        @include weatherCard();
-        img{
-            margin-top: 50px;
-            
+    section{
+        width: 100vw;
+        display:inline-flex;
+        overflow-x: scroll;
+        padding-bottom: 50px;
+        .today-weather{
+            display: block;
+            width: 400px;
+            height: 80%;
+            @include weatherCard();
+            img{
+                margin-top: 50px;
+                
+            }
+            h1{
+                margin: 0;
+                font-size: 60px;
+            }
         }
-        h1{
-            margin: 0;
-            font-size: 60px;
+        .other-weather-info{
+            width: 400pt;
+            text-align: left;
+            margin:10% 0% 0% 10%;
         }
     }
-    .other-weather-info{
-        width: 90%;
-        text-align: left;
-        margin:10% 0% 0% 10%;
+
+}
+
+@media(max-width:768px){
+    .main{
+        .section{
+            .today-weather{
+                width: 200px;
+            }
+            .other-weather-info{
+                width: 200px;
+            }
+        }
     }
 }

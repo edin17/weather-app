@@ -30,7 +30,7 @@ export default function Header(location){
             
             dispatch({type:"SELECTEDCITY",payload:res.data});
         })
-        
+        setSearchToggle(false);
     }
     let realWeather=useSelector(store=>store.weather)
     if(realWeather.length===0){
