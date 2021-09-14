@@ -1,6 +1,6 @@
 
 
-export default function weatherReducer(state=[],action){
+export default function weatherReducer(state=false,action){
     switch(action.type){
         case "SELECTEDCITY":
             state=action.payload;

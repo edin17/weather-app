@@ -33,7 +33,7 @@ export default function Header(location){
         setSearchToggle(false);
     }
     let realWeather=useSelector(store=>store.weather)
-    if(realWeather.length===0){
+    if(realWeather===false){
         return <div>Loading</div>
     }
     return <header>

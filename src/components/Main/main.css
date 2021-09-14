@@ -25,6 +25,10 @@
   color: white;
 }
 
+.main section .today-weather h2 {
+  margin: 0;
+}
+
 .main section .today-weather img {
   margin-top: 50px;
 }
