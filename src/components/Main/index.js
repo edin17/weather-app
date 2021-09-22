@@ -6,12 +6,17 @@ import { useSelector,useDispatch } from "react-redux";
 
 export default function Main(location){
     let realTimeWeather=useSelector(store=>store.weather);
-    let dispatch=useDispatch();
-
-    
-    let currentWeather=realTimeWeather.current;
+  
+  
     let [foreCast,setForeCast]=useState([]);
-    function getForeCast(weather){
+    
+    let [hourForeCast,setHourForecast]=useState(undefined);
+    let [foreCastDays,setForeCastDays]=useState([]);
+    let [g,sg]=useState(true)
+
+    let searchVal=useSelector(store=>store.weather);
+    function getForeCast(){
+    
         let now=Date.now();
         let today=new Date(now)
         let date={
@@ -20,7 +25,8 @@ export default function Main(location){
             year:today.getFullYear()
         }
         
-        let foreCastDays=[];
+        
+ 
         for(var i=2;i<=7;i++){
             today=new Date(now);
             date={
@@ -30,54 +36,68 @@ export default function Main(location){
             }
             now=now+86400000 //86400000 is 24h in miliseconds
             foreCastDays.push(date);
+            console.log(foreCastDays)
         }
-        foreCastDays.map(thisDay=>{
-            axios.post(`http://api.weatherapi.com/v1/forecast.json?key=822e9465199b4a49820105754212308&&q=${location.location.results[0].address_components[3].long_name}&&date=${thisDay.year.toString()+"-"+thisDay.month.toString()+"-"+thisDay.day.toString()}`)
+        sg(false)
+        foreCast=[]
+        setForeCast([])
+        foreCastDays.slice(0,6).map(thisDay=>{
+           
+            axios.post(`https://api.weatherapi.com/v1/forecast.json?key=822e9465199b4a49820105754212308&&q=${g===true?location.location.results[0].address_components[3].long_name:searchVal}&&date=${thisDay.year.toString()+"-"+thisDay.month.toString()+"-"+thisDay.day.toString()}`)
             .then(res=>{
-                foreCast.push(res.data)
-        
+                console.log(res.data)
+                foreCast.push(res.data);
+                setForeCast([...foreCast,res.data])
             })
         })
-        
+     
     }
 
     useEffect(()=>{
-
-            axios.post(`http://api.weatherapi.com/v1/current.json?key=822e9465199b4a49820105754212308&q=${location.location.results[0].address_components[3].long_name}&aqi=no`,{
+             
+        axios.post(`https://api.weatherapi.com/v1/current.json?key=822e9465199b4a49820105754212308&q=${location.location.results[0].address_components[3].long_name}&aqi=no`,{
             
-            })
-            .then(res=>{
-                dispatch({type:"SELECTEDCITY",payload:res.data});
-                console.log(res.data);
-                getForeCast(res.data)
-            })
+        })
+        .then(res=>{
+            
+            getForeCast(res.data)
+        })
+           
 
-
-            console.log(realTimeWeather)
-
-        },[])
-      
-        if(realTimeWeather===false || foreCast.length<0){
+        },[searchVal])
+        
+        if(realTimeWeather===false || foreCast.length<1){
             return <div>Loading</div>
         }
-       console.log(foreCast)
+        if(hourForeCast===undefined){
+            hourForeCast = foreCast[0].forecast.forecastday[0].hour
+        }
+        
+        function selectElement(date){
+
+            
+            let boxes=document.getElementsByClassName("weather-card")
+            for(var i=0;i<=boxes.length-1;i++){
+                boxes[i].style.border="none";
+            }
+            let box=document.getElementById(date)
+            box.style.border="1px solid black";
+           
+            let dayFound=foreCast.find(day=>day.forecast.forecastday[0].date===date)
+            hourForeCast=dayFound.forecast.forecastday[0].hour
+            setHourForecast(dayFound.forecast.forecastday[0].hour) 
+        }
+        
+      foreCast.sort((a,b)=>{
+        return a.forecast.forecastday[0].date_epoch - b.forecast.forecastday[0].date_epoch
+      }) 
     return <div className="main">
     <section>
-        <div className="weather-card today-weather">
-            <h2>Today</h2>
-            <img src={currentWeather.condition.icon} alt="weathericon"/>
-            <h1>{currentWeather.temp_c}°C</h1>
-            <div className="other-weather-info">
-                <p>Weather: {currentWeather.condition.text}</p>
-                <p>Feels like: {currentWeather.feelslike_c}°C</p>
-                <p>Wind speed: {currentWeather.wind_kph}km/h</p>
-                <p>Pressure: {currentWeather.pressure_mb}mb</p>
-            </div>
-        </div>
-        {foreCast.map(singleDay=>{
+
+        {foreCast.slice(0,6).map(singleDay=>{
             let forecastday=singleDay.forecast.forecastday;
-            console.log(forecastday)
-            return <div className="weather-card today-weather">
+         
+            return <div className="weather-card today-weather" id={forecastday[0].date} onClick={()=>selectElement(forecastday[0].date)}>
             <h2>{forecastday[0].date}</h2>
             <img src={forecastday[0].day.condition.icon} alt="weathericon"/>
             <h1>{forecastday[0].day.maxtemp_c}°C</h1>
@@ -93,7 +113,20 @@ export default function Main(location){
         
     </section>
   
+    <section id="hour-forecast">
+        {hourForeCast.map(hour=>{
+            
+            return  <div>
+                <h4>{hourForeCast.indexOf(hour)+":00"}</h4>
+                <img src={hour.condition.icon} alt="ikona"/>
+                <p>{hour.chance_of_rain}%</p>
+        </div>
+        
+        })}
 
+    </section>
 
     </div>
+
+    
 }

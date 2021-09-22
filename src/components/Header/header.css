@@ -50,4 +50,10 @@ header .search-res-box p {
   font-size: 11pt;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  header {
+    font-size: 2vw;
+  }
+}
 /*# sourceMappingURL=header.css.map */

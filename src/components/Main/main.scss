@@ -1,9 +1,10 @@
+$backgroundColor:rgba(0,0,0,0.4);
 @mixin weatherCard {
     width: 300px;
     height: 400px;
-    background-color: rgba(0,0,0,0.4);
+    background-color: $backgroundColor;
     text-align: center;
-    margin:50px 0px 0px 50px;
+    margin:0px 0px 0px 50px;
     border-radius:10px ;
     color: white;
 
@@ -11,12 +12,17 @@
 
 .main{
     width: 100vw;
-    height: 90vh;
+    height: 70vh;
+    margin-top: 10vh;
     section{
         width: 100vw;
+        height: 65vh;
         display:inline-flex;
         overflow-x: scroll;
-        padding-bottom: 50px;
+        padding-bottom: 0px;
+        .selected{
+            border: 1px solid black;
+        }
         .today-weather{
             display: block;
             width: 400px;
@@ -40,17 +46,48 @@
             margin:10% 0% 0% 10%;
         }
     }
+    #hour-forecast{
+        height: 15vh;
+        display: flex;
+        
+        div{
+            border-radius: 3px;
+            width: 100px;
+            height: 80px;
+            background-color:$backgroundColor ;
+            margin:0px 0px 0px 50px;
+            text-align: center;
+            color: white;
+            font-size: 1rem;
+            img{
+                width: 30px;
+                height: 30px;
+                margin: 0;
+            }
+            p,h4{
+                margin: 0;
+            }
+        }
+    }
 
 }
 
-@media(max-width:768px){
+@media(max-width:450px){
     .main{
-        .section{
-            .today-weather{
+        section{
+            height:fit-content;
+            margin-bottom: 80px;
+            padding: 0px 0px 20px 0px;
+            .weather-card{
                 width: 200px;
+                height:fit-content;
+                h1{
+                    font-size: 8vw;
+                }
             }
             .other-weather-info{
                 width: 200px;
+                font-size: 2.2vw;
             }
         }
     }
